@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagrafica</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anagrafica</h1>
+    <table id="anagraficaTable">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Età</th>
+                <th>Indirizzo</th>
+                <th>Città</th>
+                <th>Telefono</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- I dati saranno inseriti qui tramite JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Creiamo un oggetto XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+        
+        // Apriamo una richiesta GET per leggere il file JSON
+        xhr.open('GET', 'anagrafica.json', true);
+        
+        // Quando la richiesta ha successo, eseguiamo questa funzione
+        xhr.onload = function() {
+            if (xhr.status >= 200 && xhr.status < 400) {
+                // Convertiamo la risposta JSON in un oggetto JavaScript
+                var data = JSON.parse(xhr.responseText);
+                
+                // Selezioniamo il corpo della tabella
+                var tableBody = document.querySelector('#anagraficaTable tbody');
+                
+                // Cicliamo attraverso i dati e creiamo una riga per ogni persona
+                data.forEach(function(persona) {
+                    var row = document.createElement('tr');
+                    
+                    // Creiamo le celle della tabella
+                    row.innerHTML = `
+                        <td>${persona.nome}</td>
+                        <td>${persona.cognome}</td>
+                        <td>${persona.eta}</td>
+                        <td>${persona.indirizzo}</td>
+                        <td>${persona.citta}</td>
+                        <td>${persona.telefono}</td>
+                    `;
+                    
+                    // Aggiungiamo la riga alla tabella
+                    tableBody.appendChild(row);
+                });
+            }
+        };
+        
+        // Inviamo la richiesta
+        xhr.send();
+    </script>
+</body>
+</html>
