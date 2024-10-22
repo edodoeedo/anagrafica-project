@@ -32,31 +32,18 @@
             </tr>
         </thead>
         <tbody>
-            <!-- I dati saranno inseriti qui tramite JavaScript -->
         </tbody>
     </table>
 
     <script>
-        // Creiamo un oggetto XMLHttpRequest
         var xhr = new XMLHttpRequest();
-        
-        // Apriamo una richiesta GET per leggere il file JSON
         xhr.open('GET', 'anagrafica.json', true);
-        
-        // Quando la richiesta ha successo, eseguiamo questa funzione
         xhr.onload = function() {
             if (xhr.status >= 200 && xhr.status < 400) {
-                // Convertiamo la risposta JSON in un oggetto JavaScript
                 var data = JSON.parse(xhr.responseText);
-                
-                // Selezioniamo il corpo della tabella
                 var tableBody = document.querySelector('#anagraficaTable tbody');
-                
-                // Cicliamo attraverso i dati e creiamo una riga per ogni persona
                 data.forEach(function(persona) {
                     var row = document.createElement('tr');
-                    
-                    // Creiamo le celle della tabella
                     row.innerHTML = `
                         <td>${persona.nome}</td>
                         <td>${persona.cognome}</td>
@@ -65,14 +52,10 @@
                         <td>${persona.citta}</td>
                         <td>${persona.telefono}</td>
                     `;
-                    
-                    // Aggiungiamo la riga alla tabella
                     tableBody.appendChild(row);
                 });
             }
         };
-        
-        // Inviamo la richiesta
         xhr.send();
     </script>
 </body>
