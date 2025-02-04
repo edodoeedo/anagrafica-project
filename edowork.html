@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Elenco dei Post</title>
+</head>
+<body>
+    <h1>Elenco dei Post</h1>
+    <ul id="post-list"></ul>
+
+    <script>
+        const apiUrl = 'https://www.sonymusic.it/wp-json/wp/v2/posts';
+
+        async function fetchPosts() {
+            try {
+                const response = await fetch(apiUrl) ;
+                if (!response.ok) {
+                    throw new Error(`Errore HTTP! Stato: ${response.status}`);
+                }const posts = await response.json();
+                displayPosts(posts);
+            } catch (error) {
+                console.error('Si è verificato un errore:', error);
+            }
+        }
+
+        function displayPosts(posts) {
+            const postList = document.getElementById('post-list');
+            posts.forEach(post => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<a href="${post.link}">${post.title.rendered}</a>`;
+                postList.appendChild(listItem);
+            }) ;
+        }
+        fetchPosts();
+    </script>
+</body>
+</html>
